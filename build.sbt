@@ -14,7 +14,7 @@ val only2_12settings = Seq(
 
 val commonSettings = commonSmlBuildSettings ++ ossPublishSettings ++ Seq(
   organization := "com.softwaremill.tapir",
-  scalaVersion := scala2_12,
+  scalaVersion := scala2_13,
   scalafmtOnCompile := true,
   crossScalaVersions := Seq(scala2_12, scala2_13),
   is2_12 := scalaVersion.value.startsWith("2.12.")
@@ -218,15 +218,14 @@ lazy val examples: Project = (project in file("examples"))
   .settings(
     name := "tapir-examples",
     libraryDependencies ++= dependenciesFor(scalaVersion.value)(
-      _ => "dev.zio" %% "zio" % "1.0.0-RC10-1",
-      _ => "dev.zio" %% "zio-interop-cats" % "1.3.1.0-RC3",
-      _ => "org.typelevel" %% "cats-effect" % "1.3.1",
+      _ => "dev.zio" %% "zio" % "1.0.0-RC11-1",
+      "dev.zio" %% "zio-interop-cats" % Versions.zioCats(_),
+      "org.typelevel" %% "cats-effect" % Versions.catsEffect(_),
       "org.http4s" %% "http4s-dsl" % Versions.http4s(_)
     ),
     libraryDependencies ++= loggerDependencies,
     publishArtifact := false
   )
-  .settings(only2_12settings)
   .dependsOn(akkaHttpServer, http4sServer, sttpClient, openapiCirceYaml, openapiDocs, circeJson, swaggerUiAkka, swaggerUiHttp4s)
 
 lazy val playground: Project = (project in file("playground"))
